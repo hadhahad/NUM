@@ -5,22 +5,22 @@
  */
 
 /* 
- * File:   RungeKutt.h
+ * File:   RungeKutta.h
  * Author: Vladislav Belov
  *
  * Created on April 21, 2017, 4:04 PM
  */
 
-#ifndef RUNGEKUTT_H
-#define RUNGEKUTT_H
+#ifndef RUNGEKUTTA_H
+#define RUNGEKUTTA_H
 
 
 template< typename Problem >
-class RungeKutt : public IntegratorBase
+class RungeKutta : public IntegratorBase
 {
    public:
       
-      RungeKutt( Problem& problem )
+      RungeKutta( Problem& problem )
       {
          this->k1 = new double[ problem.getDegreesOfFreedom() ];
          this->k2 = new double[ problem.getDegreesOfFreedom() ];
@@ -68,7 +68,7 @@ class RungeKutt : public IntegratorBase
          return true;
       }
       
-      ~RungeKutt()
+      ~RungeKutta()
       {
          delete[] k1;
          delete[] k2;

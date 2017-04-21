@@ -10,7 +10,7 @@
       <itemPath>ODESolution.h</itemPath>
       <itemPath>ODESolver.h</itemPath>
       <itemPath>RiccatiProblem.h</itemPath>
-      <itemPath>RungeKutt.h</itemPath>
+      <itemPath>RungeKutta.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -55,7 +55,7 @@
       </item>
       <item path="RiccatiProblem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="RungeKutt.h" ex="false" tool="3" flavor2="0">
+      <item path="RungeKutta.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -92,7 +92,7 @@
       </item>
       <item path="RiccatiProblem.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="RungeKutt.h" ex="false" tool="3" flavor2="0">
+      <item path="RungeKutta.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

@@ -86,7 +86,7 @@ class Merson : public IntegratorBase
             if( this->adaptivity == 0.0 || eps < this->adaptivity )
             {
                for( int i = 0; i < dofs; i++ )
-                  u[ i ] += tau / 6.0 * ( k1[ i ] + 4.0 * k4[ i ] + k5[ i ] );
+                  u[ i ] += (tau / 6.0) * ( k1[ i ] + 4.0 * k4[ i ] + k5[ i ] );
                this->time += tau;
                iteration++;
                if( iteration > 100000 )
