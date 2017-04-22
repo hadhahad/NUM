@@ -40,11 +40,14 @@ class RiccatiProblem
          std::fstream file;
          file.open( fileName, std::ios::out );
          double t = initialTime;
+  //       int timeStepCount = std::ceil( std::max( 0.0, finalTime - initialTime ) / timeStep );
+  //       for(int k = 1; k <= timeStepCount ; k++)
          while( t < finalTime )
          {
             file << t << " " << this->getExactSolution( t, c ) << std::endl;
             t = std::min( t + timeStep, finalTime );
          }
+         file << t << " " << this->getExactSolution( t, c ) << std::endl;
       }
 };
 

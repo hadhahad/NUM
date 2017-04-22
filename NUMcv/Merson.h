@@ -73,17 +73,17 @@ class Merson : public IntegratorBase
             /****
              * Compute error
              */
-            double eps( 0.0 );
-            for( int i = 0; i < dofs; i++ )
-            {
-               double err = ( tau / 3.0 * fabs( 0.2 * k1[ i ] + -0.9 * k3[ i ] + 0.8 * k4[ i ] + -0.1 * k5[ i ] ) );
-               eps = std::max( eps, err );
-            }
+ //           double eps( 0.0 );
+ //           for( int i = 0; i < dofs; i++ )
+ //           {
+ //              double err = ( tau / 3.0 * fabs( 0.2 * k1[ i ] + -0.9 * k3[ i ] + 0.8 * k4[ i ] + -0.1 * k5[ i ] ) );
+ //              eps = std::max( eps, err );
+ //           }
             
             /***
              *
              */
-            if( this->adaptivity == 0.0 || eps < this->adaptivity )
+ //           if( this->adaptivity == 0.0 || eps < this->adaptivity )
             {
                for( int i = 0; i < dofs; i++ )
                   u[ i ] += (tau / 6.0) * ( k1[ i ] + 4.0 * k4[ i ] + k5[ i ] );
@@ -95,8 +95,8 @@ class Merson : public IntegratorBase
                   return false;
                }
             }
-            if( this->adaptivity )
-               tau *= 0.8 * pow( this->adaptivity / eps, 0.2 );
+   //         if( this->adaptivity )
+    //           tau *= 0.8 * pow( this->adaptivity / eps, 0.2 );
             tau = std::min( tau, this->stopTime - this->time );
             std::cout << "ITER: " << iteration << " \t tau = " << tau << " \t time= " << time << "         \r " << std::flush;
          }

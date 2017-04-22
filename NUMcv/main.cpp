@@ -22,11 +22,12 @@
 using namespace std;
 
 typedef RiccatiProblem Problem;
-typedef Merson< Problem > Integrator;
-const double initialTime( 0.12 );
-const double finalTime( 0.15 );
-const double timeStep( 1.0e-3 );
-const double integrationTimeStep( 1.0e-4 );
+typedef RungeKutta< Problem > Integrator;
+const double initialTime( 0.25 );
+const double finalTime( 0.45 );
+const double timeStep( 1.0e-2 );
+const double integrationTimeStep( 1.0e-3 );
+const char norms[] = "E_tau_1_rk.txt";
 
 int main( int argc, char** argv )
 {
@@ -50,9 +51,8 @@ int main( int argc, char** argv )
         float L1, L2, Lmax(0);
         double ut, u;
         int timeStepCount = std::ceil( std::max( 0.0, finalTime - initialTime ) / timeStep );
-        for(int k = 1; k <= timeStepCount ; k++)
+        for(int k = 0; k <= timeStepCount ; k++)
         {
-            time += timeStep;
             if (time >= finalTime)
                 time = finalTime;
             ut = solution.getElement(k, 0);
@@ -65,6 +65,7 @@ int main( int argc, char** argv )
             }
             sum += subtr;
             sum_sqr += subtr_sqr;
+            time += timeStep;
         }
         sum *= timeStep;
         sum_sqr *= timeStep;
@@ -72,10 +73,10 @@ int main( int argc, char** argv )
         L2 = sqrt(sum_sqr);
         
         std::fstream file;
-        file.open( "norms.txt", std::ios::out );
+        file.open( norms, std::ios::out );
         if( !file )
         {
-            std::cerr << "Unable to open a file " << "norms.txt" << "." << std::endl;
+            std::cerr << "Unable to open a file " << norms << "." << std::endl;
             return false;
         }
         file <<  "L1 = " << L1 << "\n" << 
