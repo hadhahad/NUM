@@ -1,0 +1,186 @@
+\documentclass[11pt,american,czech]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=0.2cm,bmargin=0.2cm,lmargin=1.5cm,rmargin=2cm,headheight=0.8cm,headsep=1cm,footskip=0.5cm}
+\setcounter{secnumdepth}{3}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{setspace}
+
+\usepackage{enumerate} %roman enumiration
+
+\usepackage{threeparttable}
+\usepackage{array}
+
+%% C++ code
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset { %
+	language=C++,
+	backgroundcolor=\color{black!3}, % set backgroundcolor
+	basicstyle=\footnotesize,% basic font setting
+}
+
+%% Use Times New Roman font for text and Belleek font for math
+%% Please make sure that the 'esint' package is turned off in the
+%% 'Math options' page.
+\usepackage[varg]{txfonts}
+
+
+%% Indent even the first paragraph in each section
+\usepackage{indentfirst}
+
+% completely avoid orphans (first lines of a new paragraph on the bottom of a page)
+\clubpenalty=9500
+
+% completely avoid widows (last lines of paragraph on a new page)
+\widowpenalty=9500
+
+% disable hyphenation of acronyms
+\hyphenation{CDFA HARDI HiPPIES IKEM InterTrack MEGIDDO MIMD MPFA DICOM ASCLEPIOS MedInria}
+
+%%---------------------------------------------------------------------
+
+%% Print out all vectors in bold type instead of printing an arrow above them
+%%\renewcommand{\vec}[1]{\boldsymbol{#1}}
+
+% Replace standard \cite by the parenthetical variant \citep
+%\renewcommand{\cite}{\citep}
+
+\makeatother
+\pagestyle{empty} %turns off page numbering
+
+\usepackage{babel}
+\begin{document}
+\selectlanguage{czech}
+\def\documentdate{24. dubna 2017}
+\begin{flushright}
+\textbf{	NUM2cv \\
+	Vladislav Belov}
+\end{flushright}
+
+Řešíme numericky Riccatiho rovnici~(\ref{uloha}) na intervalu $[0.25, 0.45]$ Rungeovými-Kuttovými metodami. Známe její analytické řešení: $u(t)=\big(\frac{1}{\sqrt{2}t}\tan{(\sqrt{2}(c-\frac{1}{t}))}-\frac{1}{2t}\big)e^{t}$, kde klademe $c=1$.
+
+\begin{equation} \label{uloha}
+	\begin{split}
+		&\dot{u}(t)=t^{-4}e^{t}+u(t)+2e^{-t}u^{2}(t) = f\big(t, u\big), \\
+		&u(0.25)=-31,1844.
+	\end{split}
+\end{equation}
+
+\noindent
+Označíme $\tau=$ \textit{integrationTimeStep}, $u_{0}=u(t_{0})$. Použijeme  metody:
+\begin{enumerate}[I.]
+	\item Euler:
+		\begin{equation*}
+			\begin{split}
+	&k_{1}(\tau)=\tau\cdot f\big(t_{0}, u_{0}\big), \\
+	&u(t_0+\tau)=u(t) + k_{1}(\tau).
+			\end{split}
+		\end{equation*}
+	\item Runge-Kutta 2. řádu: \label{RKII}
+		\begin{equation*}
+			\begin{split}
+				&k_{1}(\tau)=\tau\cdot f\big(t_{0}, u_{0}\big), \\
+				&k_{2}(\tau)=\tau\cdot f\big(t_{0}+\tau, u_{0}+k_{1}(\tau)\big), \\
+				&u(t_0+\tau)=u(t) + \tfrac{1}{2}k_{1}(\tau)+\tfrac{1}{2}k_{2}(\tau).
+			\end{split}
+		\end{equation*}
+	\item Runge–Kutta–Merson:
+		\begin{equation*}
+			\begin{split}
+		&k_{1}(\tau) = \tau\cdot f(t_{0},u_{0}),\\
+		&k_{2}(\tau) = \tau\cdot f \big( t_{0} + \tfrac13 \tau, u_{0} + \tfrac13 k_1 \big),\\
+		&k_{3}(\tau) = \tau\cdot f \big( t_{0} + \tfrac13 \tau, u_{0} + \tfrac16 k_1 + \tfrac16 k_2 \big),\\
+		&k_{4}(\tau) = \tau\cdot f \big( t_{0} + \tfrac12 \tau, u_{0} + \tfrac18 k_1 + \tfrac38 k_3 \big),\\
+		&k_{5}(\tau) = \tau\cdot f \big( t_{0} + \tau, u_{0} + \tfrac12 k_1 - \tfrac32 k_3 + 2 k_4 \big),\\
+		&u(t_{0}+\tau) = y_0 + \tfrac16 k_1 + \tfrac23 k_4 + \tfrac16 k_5.
+			\end{split}
+		\end{equation*}
+\end{enumerate}
+
+\hrulefill
+\vspace{0.1cm} \\
+
+Rozebereme podrobněji metodu ~(\ref{RKII}):
+\begin{enumerate}[(a)]
+	\item Výsledný graf v porovnání s průběhem analytického řešení:
+		\begin{figure}
+		
+		\end{figure}
+	\item Implementace:
+		\begin{lstlisting}
+		 
+ template< typename Problem >
+ class RungeKutta : public IntegratorBase
+ {
+  public:
+
+   RungeKutta( Problem& problem )
+   {
+	this->k1 = new double[ problem.getDegreesOfFreedom() ];
+	this->k2 = new double[ problem.getDegreesOfFreedom() ];
+	this->aux = new double[ problem.getDegreesOfFreedom() ];
+   }
+
+   bool solve( Problem& problem,
+		double* u )
+   {
+	const int dofs = problem.getDegreesOfFreedom();
+	double tau = std::min( this->integrationTimeStep, this->stopTime - this->time );
+	long int iteration( 0 );
+	while( this->time < this->stopTime )
+	{
+	  /****
+	  * Compute k1
+	  */
+	  problem.getRightHandSide( this->time, u, k1 );
+
+	  /****
+	  * Compute k2
+	  */
+	  for( int i = 0; i < dofs; i++ )
+	    aux[ i ] = u[ i ] + tau * k1[ i ];
+	  problem.getRightHandSide( this->time + tau, aux, k2 );
+
+	  /****/
+	  for( int i = 0; i < dofs; i++ )
+	    u[ i ] += ( tau / 2.0 ) * ( k1[ i ] + k2[ i ] );
+	  this->time += tau;
+	  iteration++;
+	  if( iteration > 100000 )
+	  {
+	    std::cerr << "The solver has reached the maximum number of iteratoins. " 
+	    		<< std::endl;
+	    return false;
+	  }
+	  tau = std::min( tau, this->stopTime - this->time );
+	  std::cout << "ITER: " << iteration << " \t tau = " << tau 
+	  		<< " \t time= " << time << "         \r " << std::flush;  
+	}
+	std::cout << std::endl;
+	return true;
+   }
+
+   ~RungeKutta()
+   {
+	delete[] k1;
+	delete[] k2;
+	delete[] aux;
+   }
+
+  protected:
+
+   double *k1, *k2, *aux;
+
+ };
+		\end{lstlisting}
+
+\end{enumerate}
+
+
+\end{document}
