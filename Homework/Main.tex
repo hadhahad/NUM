@@ -2,7 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper]{geometry}
-\geometry{verbose,tmargin=0.2cm,bmargin=0.2cm,lmargin=1.5cm,rmargin=2cm,headheight=0.8cm,headsep=1cm,footskip=0.5cm}
+\geometry{verbose,tmargin=1cm,bmargin=0.5cm,lmargin=1.5cm,rmargin=2cm,headheight=0.8cm,headsep=1cm,footskip=0.5cm}
 \setcounter{secnumdepth}{3}
 \usepackage{url}
 \usepackage{amsmath}
@@ -60,8 +60,11 @@
 \def\documentdate{24. dubna 2017}
 \begin{flushright}
 \textbf{	NUM2cv \\
+	Domácí úkol č.2 \\
 	Vladislav Belov}
 \end{flushright}
+
+\section{Rungeovy-Kuttovy metody}
 
 Řešíme numericky Riccatiho rovnici~(\ref{uloha}) na intervalu $[0.25, 0.45]$ Rungeovými-Kuttovými metodami. Známe její analytické řešení: $u(t)=\big(\frac{1}{\sqrt{2}t}\tan{(\sqrt{2}(c-\frac{1}{t}))}-\frac{1}{2t}\big)e^{t}$, kde klademe $c=1$.
 
@@ -103,15 +106,18 @@ Označíme $\tau=$ \textit{integrationTimeStep}, $u_{0}=u(t_{0})$. Použijeme  m
 		\end{equation*}
 \end{enumerate}
 
-\hrulefill
-\vspace{0.1cm} \\
+%\hrulefill
+%\vspace{0.1cm} \\
+\noindent
+Soustředíme se na metodě ~(\ref{RKII}):
 
-Rozebereme podrobněji metodu ~(\ref{RKII}):
 \begin{enumerate}[(a)]
-	\item Výsledný graf v porovnání s průběhem analytického řešení:
-		\begin{figure}
-		
+	\item Průběh numerického řešení v porovnání s průběhem analytického ($timeStep = 10^{-2}$,  $integrationTimeStep = 10^{-3}$):
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[height=8cm]{Figs/plot}
 		\end{figure}
+	\newpage
 	\item Implementace:
 		\begin{lstlisting}
 		 
@@ -181,6 +187,11 @@ Rozebereme podrobněji metodu ~(\ref{RKII}):
 		\end{lstlisting}
 
 \end{enumerate}
+
+\newpage
+
+
+\section{$L^{1}$, $L^{2}$, $L^{\infty}$ - normy}
 
 
 \end{document}
