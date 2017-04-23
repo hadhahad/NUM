@@ -22,12 +22,12 @@
 using namespace std;
 
 typedef RiccatiProblem Problem;
-typedef RungeKutta< Problem > Integrator;
+typedef Merson< Problem > Integrator;
 const double initialTime( 0.25 );
 const double finalTime( 0.45 );
-const double timeStep( 1.0e-2 );
-const double integrationTimeStep( 1.0e-3 );
-const char norms[] = "E_tau_1_rk.txt";
+const double timeStep( 2.0e-3 );
+const double integrationTimeStep( 2.0e-3 );
+const char norms[] = "E_tau_1_me.txt";
 
 int main( int argc, char** argv )
 {
