@@ -41,7 +41,8 @@ int main( int argc, char** argv )
     solver.setInitialCondition( initialCondition );
     solver.solve( solution, initialTime, finalTime, timeStep );
     solution.write( "riccati.txt", initialTime, timeStep );
-    problem.writeExactSolution( "exact-riccati.txt", initialTime, finalTime, timeStep, 1.0 );
+    problem.writeExactSolution( "exact-riccati.txt", initialTime, 
+            finalTime, timeStep, 1.0 );
     
     if (true)
     {
@@ -50,7 +51,8 @@ int main( int argc, char** argv )
         double subtr, subtr_sqr;
         float L1, L2, Lmax(0);
         double ut, u;
-        int timeStepCount = std::ceil( std::max( 0.0, finalTime - initialTime ) / timeStep );
+        int timeStepCount = std::ceil( std::max( 0.0, 
+                finalTime - initialTime ) / timeStep );
         for(int k = 0; k <= timeStepCount ; k++)
         {
             if (time >= finalTime)

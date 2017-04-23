@@ -16,6 +16,10 @@
 \usepackage{threeparttable}
 \usepackage{array}
 
+\usepackage{multirow}
+%\usepackage{booktabs} %for \cmidrule{a-b}
+\usepackage{hhline}
+
 %% C++ code
 \usepackage{listings}
 \usepackage{xcolor}
@@ -190,8 +194,71 @@ Soustředíme se na metodě ~(\ref{RKII}):
 
 \newpage
 
+\section{$L^{1}$, $L^{2}$, $L^{\infty}$ - normy, EOC (experimental orders of convergence)}
 
-\section{$L^{1}$, $L^{2}$, $L^{\infty}$ - normy}
+Označíme $\tau = integrationTimeStep$, $\Delta t = timeStep$ ($\Delta t=10^{-2}$), $\bar{u}_{\tau}$ - numerické řešení spočítané s integračním krokem $\tau$, $u$ - analytické řešení, $K$ - počet bodů v rozdělení intervalu $[a, b]$ ($a=0.25$, $b=0.45$, $K = \tfrac{b-a}{\Delta t} = \tfrac{0.45-0.25}{10^{-2}}=20$). Potom lze spočítat normy takto:
+
+\begin{equation*}
+	\begin{split}
+		&\rVert\bar{u}_{\tau}-u\lVert_{L^{1}} = \sum_{j=0}^{K}\lvert\bar{u}_{\tau}(a+j\Delta t)-u(a+j\Delta t)\rvert\cdot\Delta t \\
+		&\rVert\bar{u}_{\tau}-u\lVert_{L^{2}} = \Big(\sum_{j=0}^{K}\lvert\bar{u}_{\tau}(a+j\Delta t)-u(a+j\Delta t)\rvert^{2}\cdot\Delta t\Big)^{\frac{1}{2}} \\
+		&\rVert\bar{u}_{\tau}-u\lVert_{L^{\infty}} = \max_{j=0,1,\cdots,K}\  \lvert\bar{u}_{\tau}(a+j\Delta t)-u(a+j\Delta t)\rvert 
+	\end{split}
+\end{equation*}
+
+\noindent
+Chyba (err.) metody se spočte jako $E_{\tau} = \rVert\bar{u}_{\tau}-u\lVert_{L}$ a experimentální řád konvergence EOC($E_{\tau_{1}}$, $E_{\tau_{2}}$) $= {\log_{2}{\tfrac{E_{\tau_{1}}}{E_{\tau_{2}}}}}\big/{\log_{2}{\tfrac{\tau_{1}}{\tau_{2}}}}$.
+\begin{table}[!htb]
+	\centering\shorthandoff{-}
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{ |c||c|c|c|c|c|c| }
+	  \hline
+%	 \multirow{2}{*}{Defenders} & LB & Lucas Radebe \\
+%	  & DC & Michael Duburry \\
+
+	\multirow{2}{*}{$\tau$} & \multicolumn{2}{c|}{$L^{1}$} & \multicolumn{2}{c|}{$L^{2}$} & \multicolumn{2}{c|}{$L^{\infty}$} \\ \hhline{~------}
+	& err. &  EOC & err. & EOC & err. & EOC \\
+	  \hline \hline
+	$10^{-3}$ & $1.75358\cdot10^{-1}$ & $\times$ & $6.52637\cdot10^{-1}$ & $\times$ & $5.20364$ & $\times$\\ \hline 
+	$5\cdot10^{-4}$ & $8.44912\cdot10^{-2}$ & $1.053$ & $3.10358\cdot10^{-1}$ & $1.072$ & 2.45653 & $1.083$  \\ \hline
+	$2.5\cdot10^{-4}$ & $4.14977\cdot10^{-2}$ & $1.026$ & $1.51472\cdot10^{-1}$ & $1.035$ & $1.19462$ & $1.04$  \\ \hline
+	$1.25\cdot10^{-4}$ & $2.05675\cdot10^{-2}$ & $1.013$ & $7.48415\cdot10^{-2}$ & $1.017$ & $5.89204\cdot10^{-1}$ & $1.02$  \\ \hline
+	$6.25\cdot10^{-5}$ & $1.02391\cdot10^{-2}$ & $1.006$ & $3.72011\cdot10^{-2}$ & $1.008$ & $2.92613\cdot10^{-1}$ & $1.01$  \\ \hline
+	$3.125\cdot10^{-5}$ & $5.10848\cdot10^{-3}$ & $1.003$ & $1.85461\cdot10^{-2}$ & $1.004$ & $1.45814\cdot10^{-1}$ & $1.005$ \\ \hline
+	\end{tabular}
+	\caption{Eulerova metoda}
+	\vspace{0.75cm}
+	\begin{tabular}{ |c||c|c|c|c|c|c| }
+	  \hline
+	\multirow{2}{*}{$\tau$} & \multicolumn{2}{c|}{$L^{1}$} & \multicolumn{2}{c|}{$L^{2}$} & \multicolumn{2}{c|}{$L^{\infty}$} \\ \hhline{~------}
+	& err. &  EOC & err. & EOC & err. & EOC \\
+	  \hline \hline
+	$10^{-3}$ & $1.83033\cdot10^{-3}$ & $\times$ & $7.84699\cdot10^{-3}$ & $\times$ & $6.82516\cdot10^{-2}$ & $\times$  \\ \hline 
+	$5\cdot10^{-4}$ & $4.55945\cdot10^{-4}$ & $2.0052$ & $1.96057\cdot10^{-3}$ & $2.00087$ & $1.70738\cdot10^{-2}$ & $1.99908$  \\ \hline
+	$2.5\cdot10^{-4}$ & $1.13708\cdot10^{-4}$ & $2.0035$ & $4.89612\cdot10^{-4}$ & $2.00156$ & $4.26622\cdot10^{-3}$ & $2.00075$ \\ \hline
+	$1.25\cdot10^{-4}$ & $2.83878\cdot10^{-5}$ & $2.002$ & $1.22314\cdot10^{-4}$ & $2.00105$ & $1.06606\cdot10^{-3}$ & $2.00067$  \\ \hline
+	$6.25\cdot10^{-5}$ & $7.0918\cdot10^{-6}$ & $2.001$ & $3.05658\cdot10^{-5}$ & $2.0006$ & $2.66439\cdot10^{-4}$ & $2.00041$  \\ \hline 
+	$3.125\cdot10^{-5}$ & $1.77228\cdot10^{-6}$ & $2.0005$ & $7.63974\cdot10^{-6}$ & $2.00032$ & $6.65992\cdot10^{-5}$ & $2.00023$  \\ \hline
+	\end{tabular}
+	\caption{Rungeova-Kuttova metoda 2. řádu}
+	\vspace{0.75cm}
+	\begin{tabular}{ |c||c|c|c|c|c|c| }
+	  \hline
+%	 \multirow{2}{*}{Defenders} & LB & Lucas Radebe \\
+%	  & DC & Michael Duburry \\
+
+	\multirow{2}{*}{$\tau$} & \multicolumn{2}{c|}{$L^{1}$} & \multicolumn{2}{c|}{$L^{2}$} & \multicolumn{2}{c|}{$L^{\infty}$} \\ \hhline{~------}
+	& err. &  EOC & err. & EOC & err. & EOC \\
+	  \hline \hline
+	$10^{-3}$ & $2.36651\cdot10^{-7}$ & $\times$ & $9.76783\cdot10^{-7}$ & $\times$ & $8.3966\cdot10^{-6}$ & $\times$  \\ \hline 
+	$5\cdot10^{-4}$ & $1.46934\cdot10^{-8}$ & $4.00952$ & $6.07233\cdot10^{-8}$ & $4.00772$ & $5.22349\cdot10^{-7}$ & $4.00672$ \\ \hline
+	$2.5\cdot10^{-4}$ & $9.1339\cdot10^{-10}$ & $4.00779$ & $3.77666\cdot10^{-9}$ & $4.00707$ & $3.24991\cdot10^{-8}$ & $4.00654$  \\ \hline
+	$1.25\cdot10^{-4}$ & $5.54893\cdot10^{-11}$ & $4.04095$ & $2.28997\cdot10^{-10}$ & $4.04371$ & $1.97127\cdot10^{-9}$ & $4.0432$  \\ \hline
+	$6.25\cdot10^{-5}$ & $8.35626\cdot10^{-12}$ & $2.73128$ & $3.62685\cdot10^{-11}$ & $2.65854$ & $3.10102\cdot10^{-10}$ & $2.66831$  \\ \hline
+	$3.125\cdot10^{-5}$ & $7.7862\cdot10^{-12}$ & $0.10194$ & $3.51773\cdot10^{-11}$ & $0.04407$ & $2.98606\cdot10^{-10}$ & $0.0545$  \\ \hline
+	\end{tabular}
+	\caption{Rungeova-Kuttova-Mersonova metoda (bez adaptivity)}
+\end{table}
 
 
 \end{document}
