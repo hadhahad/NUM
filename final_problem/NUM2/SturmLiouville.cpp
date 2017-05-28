@@ -12,12 +12,12 @@
 using namespace std;
 
 typedef FDMProblem Problem;
-//const double initialTime( M_PI / 2 );
-//const double finalTime( M_PI );
-const double initialTime( 0 );
-const double finalTime( 15 );
+const double initialTime( M_PI / 2 );
+const double finalTime( M_PI );
+//const double initialTime( 0 );
+//const double finalTime( 15 );
 const double initialCondition_ini( 0 );
-const double initialCondition_fin( 5 );
+const double initialCondition_fin( 1 );
 const int m( 100000 );
 
 

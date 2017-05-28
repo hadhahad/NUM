@@ -37,7 +37,7 @@ $(MAIN): $(OBJECTS)
 	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c -o $@ $<
 
 clean:
-	$(RM) *.o *~ bin/$(MAIN) bin/*.txt
+	$(RM) *.o *~ bin/$(MAIN) bin/*.txt *.txt
 
 
 depend: $(SOURCES)
