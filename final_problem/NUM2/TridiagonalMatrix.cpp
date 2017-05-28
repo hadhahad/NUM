@@ -1,9 +1,5 @@
-#include <string>
-#include <sstream>
-#include <iomanip>
-#include <assert.h>
 #include "TridiagonalMatrix.h"
-#include <cmath>
+
 
 TridiagonalMatrix::TridiagonalMatrix()
 {
@@ -74,4 +70,29 @@ TridiagonalMatrix& TridiagonalMatrix::operator=( const TridiagonalMatrix& m )
 {
    this->setDimensions( m.getRows(), m.getColumns() );
    this->elements = m.elements;
+}
+
+bool ThomasAlgorithm( TridiagonalMatrix& A, Vector& b )
+{
+   /****
+    * First phase: Eliminate elements under diagonal
+    */
+   const int n = A.getColumns();
+   A( 0, 1 ) /= A( 0, 0 );
+   b[ 0 ] /= A( 0, 0 );
+   A( 0, 0 ) = 1.0;
+   for( int k = 1; k < n; k++ )
+   {
+      b[ k ] = ( b[ k ] - A( k, k - 1 ) * b[ k - 1 ] ) / ( A( k, k ) - A( k, k - 1 ) * A( k - 1, k) );
+      if( k < n - 1 )
+      {
+         A( k, k + 1 ) = A( k, k + 1) / ( A( k, k ) - A( k, k - 1 ) * A( k - 1, k ) );
+         A( k, k ) = 1.0;
+      }
+   }
+   /****
+    * Second phase: Backward substitution
+    */
+   for( int k = n - 2; k >= 0; k-- )
+      b[ k ] = b[ k ] - A( k, k+1 ) * b[ k + 1 ];
 }

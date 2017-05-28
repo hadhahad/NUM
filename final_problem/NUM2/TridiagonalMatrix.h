@@ -11,7 +11,9 @@
 
 #include <vector>
 #include <iostream>
+#include <cmath>
 #include "Vector.h"
+#include <assert.h>
 
 class TridiagonalMatrix
 {
@@ -43,6 +45,8 @@ class TridiagonalMatrix
       int rows, columns; 
 
 };
+
+bool ThomasAlgorithm( TridiagonalMatrix& A, Vector& b );
 
 #endif /* TRIDIAGONALMATRIX_H */
 

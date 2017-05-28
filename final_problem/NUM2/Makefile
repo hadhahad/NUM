@@ -9,12 +9,11 @@ CFLAGS  = -g -Wall
 # the build target executable:
 TARGET = SturmLiouville
 HEADERS += FDMProblem.h \
-	Solver.h \
 	TridiagonalMatrix.h \
 	Vector.h
 
 SOURCES += SturmLiouville.cpp \
-	Solver.cpp \
+	FDMProblem.cpp \
 	TridiagonalMatrix.cpp \
 	Vector.cpp
 
