@@ -22,7 +22,7 @@ class FDMProblem
       
       double evaluateQ(const double& x);
       
-      double evaluateF(const double& x);
+      double evaluateRightHandSide(const double& x);
 
       void solve( const double& initialTime, const double& finalTime, 
                              const double& initialCondition_ini, const double& initialCondition_fin, 

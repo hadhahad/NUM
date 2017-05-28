@@ -35,7 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/Solver.o \
+	${OBJECTDIR}/FDMProblem.o \
 	${OBJECTDIR}/SturmLiouville.o \
 	${OBJECTDIR}/TridiagonalMatrix.o \
 	${OBJECTDIR}/Vector.o
@@ -65,10 +65,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/num2: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/num2 ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/Solver.o: Solver.cpp
+${OBJECTDIR}/FDMProblem.o: FDMProblem.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Solver.o Solver.cpp
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/FDMProblem.o FDMProblem.cpp
 
 ${OBJECTDIR}/SturmLiouville.o: SturmLiouville.cpp
 	${MKDIR} -p ${OBJECTDIR}

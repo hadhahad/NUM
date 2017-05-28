@@ -1,5 +1,4 @@
 #include "Vector.h"
-#include <cmath>
 
 void Vector::setSize( const int size )
 {

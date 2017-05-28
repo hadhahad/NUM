@@ -27,10 +27,11 @@ MAIN = SturmLiouville
 .PHONY: depend clean
 
 all:    $(MAIN)
-	@echo  "*********\nSturmLiouville has been compiled and the executive file was placed in the directory 'bin/'.\n*********"
+	@echo  "\nSturmLiouville has been successfully compiled and the executive file was placed in the directory 'bin/'.\n"
 
 $(MAIN): $(OBJECTS) 
 	$(CXX) $(CPPFLAGS) $(HEADERS) -o bin/$(MAIN) $(OBJECTS) $(LD_FLAGS)
+	$(RM) *.o
 
 %.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXX_FLAGS) -c -o $@ $<

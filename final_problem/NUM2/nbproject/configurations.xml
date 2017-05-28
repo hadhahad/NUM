@@ -5,7 +5,6 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>FDMProblem.h</itemPath>
-      <itemPath>Solver.h</itemPath>
       <itemPath>TridiagonalMatrix.h</itemPath>
       <itemPath>Vector.h</itemPath>
     </logicalFolder>
@@ -16,7 +15,7 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>Solver.cpp</itemPath>
+      <itemPath>FDMProblem.cpp</itemPath>
       <itemPath>SturmLiouville.cpp</itemPath>
       <itemPath>TridiagonalMatrix.cpp</itemPath>
       <itemPath>Vector.cpp</itemPath>
@@ -43,11 +42,9 @@
       </toolsSet>
       <compileType>
       </compileType>
+      <item path="FDMProblem.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="FDMProblem.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Solver.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Solver.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SturmLiouville.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -80,11 +77,9 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
+      <item path="FDMProblem.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="FDMProblem.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="Solver.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="Solver.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="SturmLiouville.cpp" ex="false" tool="1" flavor2="0">
       </item>
