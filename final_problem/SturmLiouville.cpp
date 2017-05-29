@@ -48,7 +48,14 @@ int main(int argc, char** argv)
     x.setSize( m + 1 );
     
     problem.solve( initialTime, finalTime, initialCondition_ini, initialCondition_fin, m, mesh, x, verbose );
-    problem.writeSolution("solution.txt", mesh, x);
+    if ( problem.writeSolution( "solution.txt", mesh, x ) )
+    {
+        cout << "The Sturm-Liouville equation was successfully solved. The 'solution.txt' file was generated in the current directory." << endl;
+    }
+    else
+    {
+        cerr << "'ERROR: solution.txt' could not be generated." << endl;
+    }
     
     return 0;
 }
