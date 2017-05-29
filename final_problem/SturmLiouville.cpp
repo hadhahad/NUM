@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include "FDMProblem.h"
 #include "Vector.h"
+#include <assert.h>
 
 using namespace std;
 
@@ -21,18 +22,32 @@ const double initialCondition_fin( 1 );
 const int m( 100000 );
 
 
-/*
- * 
- */
+
 int main(int argc, char** argv) 
 {
+    int verbose ( 0 );
+    if ( ( argc == 2 ) && ( argv[1][0] == '-' ) && ( argv[1][1] == 'v' ) )
+    {
+        verbose = 1;
+    }
+    else if ( argc > 2 )
+    {
+        cerr << "Set the argument '-v' for verbose output. There are no other possible arguments for this pogram." << endl;
+    }
+    /*
+    std::cout << "We have " << argc << " arguments:" << std::endl;
+    for (int i = 0; i < argc; i++) 
+    {
+        std::cout << argv[i] << std::endl;
+    }
+    */
     Problem problem;  
     Vector mesh;
     Vector x;
     mesh.setSize( m + 1 );
     x.setSize( m + 1 );
     
-    problem.solve( initialTime, finalTime, initialCondition_ini, initialCondition_fin, m, mesh, x );
+    problem.solve( initialTime, finalTime, initialCondition_ini, initialCondition_fin, m, mesh, x, verbose );
     problem.writeSolution("solution.txt", mesh, x);
     
     return 0;

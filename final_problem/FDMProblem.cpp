@@ -17,8 +17,13 @@ double FDMProblem::evaluateRightHandSide(const double& x)
 
 void FDMProblem::solve( const double& initialTime, const double& finalTime, 
                              const double& initialCondition_ini, const double& initialCondition_fin, 
-                             const int& m, Vector& mesh, Vector& x)
-{     
+                             const int& m, Vector& mesh, Vector& x, const int& verbose )
+{    
+    if( verbose )
+    {
+        std::cout << "Variables allocation...";
+    }
+    int diagonalDominance( 2 );
     const double step = (finalTime - initialTime) / m;
     double* p;
     double *q;
@@ -29,7 +34,12 @@ void FDMProblem::solve( const double& initialTime, const double& finalTime,
     p = new double[ m + 1 ];
     q = new double[ m + 1 ];
     rightHandSide.setSize( m + 1 );
-          
+    
+    if( verbose )
+    {
+        std::cout << "........OK" << std::endl;
+        std::cout << "Variables initialization...";
+    }
     mesh[ 0 ] = initialTime;
     p[ 0 ] = evaluateP( initialTime );
     q[ 0 ] = evaluateQ( initialTime );
@@ -54,13 +64,44 @@ void FDMProblem::solve( const double& initialTime, const double& finalTime,
         A( i, i - 1 ) = -p[ i ] / ( step * step );
         A( i, i ) = q[ i ] + ( p[ i ] + p[ i + 1 ] ) / ( step * step );
         A( i, i + 1 ) = -p[ i + 1 ] / ( step * step );
+        if ( verbose )
+        {
+            if( std::abs( A( i, i ) ) >= std::abs( A( i, i - 1 ) ) + std::abs( A( i, i + 1 ) ) )
+            {
+                diagonalDominance += 1;
+            }  
+        } 
     }
-          
     delete[] p;
     delete[] q; 
-          
-    ThomasAlgorithm( A, rightHandSide );
-    x = rightHandSide;         
+    if( verbose )
+    {
+        std::cout << "....OK" << std::endl;
+        std::cout << "Matrix diagonal dominance...";
+        if ( diagonalDominance == m + 1 )
+        {
+            std::cout << "...OK" << std::endl;
+        }
+        else 
+        {
+            std::cout << "...NO" << std::endl;
+        }
+        std::cout << "Thomas algorithm...";
+    }
+    
+    if ( ThomasAlgorithm( A, rightHandSide ) )
+    {
+        if( verbose )
+        {
+            std::cout << "............OK" << std::endl;
+        }
+        x = rightHandSide;  
+    }
+    else
+    {
+        std::cerr << " Thomas algorithm was unsuccessful. " << std::endl;      
+    }
+           
 }
 
 bool FDMProblem::writeSolution( const char*  fileName, Vector& mesh, Vector& x)
