@@ -30,9 +30,9 @@ int main(int argc, char** argv)
     {
         verbose = 1;
     }
-    else if ( argc > 2 )
+    else
     {
-        cerr << "Set the argument '-v' for verbose output. There are no other possible arguments for this pogram." << endl;
+        cerr << "Type the argument '-v' for verbose output. There are no other possible arguments for this pogram." << endl;
     }
     /*
     std::cout << "We have " << argc << " arguments:" << std::endl;
