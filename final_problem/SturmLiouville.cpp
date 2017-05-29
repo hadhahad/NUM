@@ -32,7 +32,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        cerr << "Type the argument '-v' for verbose output. There are no other possible arguments for this pogram." << endl;
+        cerr << "Type the argument '-v' for verbose output. No other arguments are possible." << endl;
     }
     /*
     std::cout << "We have " << argc << " arguments:" << std::endl;
